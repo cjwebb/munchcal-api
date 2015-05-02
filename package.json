@@ -1,0 +1,20 @@
+{
+  "name": "munchcal-api",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cjwebb/munchcal-api.git"
+  },
+  "dependencies": {
+    "express": "4.x",
+    "body-parser": "1.x",
+    "moment": "2.9.0",
+    "pg": "4.3.0",
+    "node-uuid": "1.4.2",
+    "lodash": "3.7.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-nodemon": "^2.0.2"
+  }
+}
