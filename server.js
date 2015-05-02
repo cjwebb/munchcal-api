@@ -1,16 +1,24 @@
 "use strict"
 
-var express    = require('express'),
-    bodyParser = require('body-parser'),
-    moment     = require('moment'),
-    _          = require('lodash'),
-    app        = express();
+var express     = require('express'),
+    bodyParser  = require('body-parser'),
+    moment      = require('moment'),
+    momentRange = require('moment-range'),
+    _           = require('lodash'),
+    app         = express();
 
-var db         = require('./app/db');
+var db          = require('./app/db');
 
 app.use(bodyParser.json());
 
 var calendarFormat = "YYYY-MM-DD";
+var dateRange = function(start, end){
+    var days = [];
+    moment().range(start, end).by('days', function(d){
+        days.push(d.format(calendarFormat));
+    });
+    return days;
+};
 
 app.route('/users/:userId/meals')
     .post(function(req, res){
@@ -35,13 +43,24 @@ app.route('/users/:userId/meals')
 
         db.getMeals(userId, startOfWeek, endOfWeek, function(err, meals){
             if (err) return res.status(500).json({ error: err.message });
+
+            var grouped = _.groupBy(meals, 'date');
+            var range = dateRange(startOfWeek, endOfWeek);
+            var data = _.map(range, function(date){
+                var food = grouped[date] || [ ];
+                return {
+                    date: date,
+                    food: food
+                }
+            });
+
             res.json({
-                'start': startOfWeek.format(calendarFormat),
-                'end': endOfWeek.format(calendarFormat),
-                'days': meals,
-                'pagination': {
-                    'previous': previous.format(calendarFormat),
-                    'next': next.format(calendarFormat)
+                start: startOfWeek.format(calendarFormat),
+                end: endOfWeek.format(calendarFormat),
+                days: data,
+                pagination: {
+                    previous: previous.format(calendarFormat),
+                    next: next.format(calendarFormat)
                 } 
             });
         })

@@ -6,12 +6,13 @@
     "url": "https://github.com/cjwebb/munchcal-api.git"
   },
   "dependencies": {
-    "express": "4.x",
     "body-parser": "1.x",
+    "express": "4.x",
+    "lodash": "3.7.0",
     "moment": "2.9.0",
-    "pg": "4.3.0",
+    "moment-range": "^1.0.9",
     "node-uuid": "1.4.2",
-    "lodash": "3.7.0"
+    "pg": "4.3.0"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
