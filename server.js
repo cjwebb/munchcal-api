@@ -36,8 +36,11 @@ app.route('/users/:userId/meals')
         // no date specified, so assume we want the current week
         var userId = req.params.userId;
 
-        var startOfWeek = moment().utc().isoWeekday(1);
-        var endOfWeek = moment().utc().isoWeekday(7);
+        var fromDate = moment(req.query.from, calendarFormat, true); // true -> strict parsing
+        if (!fromDate.isValid()) fromDate = moment().utc();
+
+        var startOfWeek = moment(fromDate).isoWeekday(1);
+        var endOfWeek = moment(fromDate).isoWeekday(7);
         var previous = moment(startOfWeek).subtract(7, 'days');
         var next = moment(endOfWeek).add(1, 'days');
 
