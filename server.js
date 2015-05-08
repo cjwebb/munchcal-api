@@ -4,11 +4,13 @@ var express     = require('express'),
     bodyParser  = require('body-parser'),
     moment      = require('moment'),
     momentRange = require('moment-range'),
+    morgan      = require('morgan'),
     _           = require('lodash'),
     app         = express();
 
 var db          = require('./app/db');
 
+app.use(morgan('short'));
 app.use(bodyParser.json());
 
 var calendarFormat = "YYYY-MM-DD";
